@@ -17,6 +17,14 @@ public class TankDrive extends Command{
     private FlightStick rightStick;
     private FlightStick leftStick;
 
+    public TankDrive() {
+        this.right = null;
+        this.left = null;
+        this.leftStick = null;
+        this.rightStick = null;
+    }
+    
+    
     public TankDrive(GearboxThree right, GearboxThree left, FlightStick rightStick, FlightStick leftStick) {
         this.right = right;
         this.left = left;

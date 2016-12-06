@@ -11,14 +11,20 @@ public class GearboxThree {
     private final Motor top;
     private final Motor front;
     private final Motor back;
-    private final Solenoid shift;
     private final boolean isReversed;
 
-    public GearboxThree(Motor top, Motor front, Motor back, Solenoid shift, boolean isReversed) {
+    public GearboxThree() {
+        this.top = null;
+        this.back = null;
+        this.front = null;
+        this.isReversed = false;
+    }
+
+    
+    public GearboxThree(Motor top, Motor front, Motor back, boolean isReversed) {
         this.top = top;
         this.front = front;
         this.back = back;
-        this.shift = shift;
         this.isReversed = isReversed;
     }
     
@@ -34,12 +40,5 @@ public class GearboxThree {
         }
     }
     
-    public void shiftGearsHigh(){
-        shift.extend();
-    }
     
-    public void shiftGearsLow(){
-        shift.retract();
-    }
-     
 }

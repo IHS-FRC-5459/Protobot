@@ -7,6 +7,7 @@ import org.strongback.components.Solenoid;
 import org.strongback.hardware.Hardware;
 import org.strongback.components.ui.FlightStick;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import org.strongback.SwitchReactor;
 /**
  * This is the main code for protobot
  * @author filip
@@ -18,13 +19,13 @@ public class Robot extends IterativeRobot {
     private Motor topLeft;
     private Motor frontLeft;
     private Motor backLeft;
-    private Solenoid leftShift;
-    private Solenoid rightShift;
+    private Solenoid shift;
     private GearboxThree right;
     private GearboxThree left;
     private TankDrive drive;
     private FlightStick rightStick;
     private FlightStick leftStick;
+    private SwitchReactor reactor;
     
     @Override
     public void robotInit() {
@@ -37,16 +38,17 @@ public class Robot extends IterativeRobot {
         /*
         * do not revers any motors because it is reversed 
         */
-        rightShift = Hardware.Solenoids.doubleSolenoid(0, 1, Solenoid.Direction.RETRACTING);
-        leftShift = Hardware.Solenoids.doubleSolenoid(2, 3, Solenoid.Direction.RETRACTING);
+        shift = Hardware.Solenoids.doubleSolenoid(0, 1, Solenoid.Direction.RETRACTING);
+        
         //topRight.invert();
         //right = Motor.compose(topRight, frontRight,backLeft);
+        //drive = new TankDrive(right, left);
         //Do this for a replacement for the gearboxes^
-        left = new GearboxThree(topLeft, frontLeft, backLeft, leftShift, true);
-        right = new GearboxThree(topRight, frontRight, backRight, leftShift, false);
+        left = new GearboxThree(topLeft, frontLeft, backLeft, true);
+        right = new GearboxThree(topRight, frontRight, backRight, false);
         rightStick = Hardware.HumanInterfaceDevices.logitechAttack3D(1);
         leftStick = Hardware.HumanInterfaceDevices.logitechAttack3D(0);
-        
+        reactor = Strongback.switchReactor();
     }
     
     @Override
@@ -71,7 +73,8 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void teleopPeriodic() {
-        
+        reactor.whileTriggered(rightStick.getTrigger(), () -> Strongback.submit(new ShiftUp(shift)));
+        reactor.onTriggered(rightStick.getThumb(), () -> Strongback.submit(new ShiftDown(shift)));
     }
 
     @Override
