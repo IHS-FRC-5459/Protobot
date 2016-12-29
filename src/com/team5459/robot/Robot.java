@@ -67,7 +67,7 @@ public class Robot extends IterativeRobot {
     
     @Override
     public void teleopInit() {
-        Strongback.submit(new Drive(drive, rightStick, leftStick));
+        Strongback.submit(new Drive(drive, rightStick.getPitch().read(), leftStick.getPitch().read()));
         
     }
 
