@@ -8,6 +8,8 @@ import org.strongback.hardware.Hardware;
 import org.strongback.components.ui.FlightStick;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import org.strongback.SwitchReactor;
+import org.strongback.drive.TankDrive;
+
 /**
  * This is the main code for protobot
  * @author filip
@@ -20,8 +22,8 @@ public class Robot extends IterativeRobot {
     private Motor frontLeft;
     private Motor backLeft;
     private Solenoid shift;
-    private GearboxThree right;
-    private GearboxThree left;
+    private Motor left;
+    private Motor right;
     private TankDrive drive;
     private FlightStick rightStick;
     private FlightStick leftStick;
@@ -39,13 +41,11 @@ public class Robot extends IterativeRobot {
         * do not revers any motors because it is reversed 
         */
         shift = Hardware.Solenoids.doubleSolenoid(0, 1, Solenoid.Direction.RETRACTING);
-        
-        //topRight.invert();
-        //right = Motor.compose(topRight, frontRight,backLeft);
-        //drive = new TankDrive(right, left);
-        //Do this for a replacement for the gearboxes^
-        left = new GearboxThree(topLeft, frontLeft, backLeft, true);
-        right = new GearboxThree(topRight, frontRight, backRight, false);
+        topLeft.invert();
+        topRight.invert();
+        right = Motor.compose(topRight, frontRight,backLeft);
+        left = Motor.compose(topLeft, frontLeft, backLeft);
+        drive = new TankDrive(right, left);
         rightStick = Hardware.HumanInterfaceDevices.logitechAttack3D(1);
         leftStick = Hardware.HumanInterfaceDevices.logitechAttack3D(0);
         reactor = Strongback.switchReactor();
@@ -67,13 +67,13 @@ public class Robot extends IterativeRobot {
     
     @Override
     public void teleopInit() {
-        Strongback.submit(new TankDrive(right, left, rightStick, leftStick));
+        Strongback.submit(new Drive(drive, rightStick, leftStick));
         
     }
 
     @Override
     public void teleopPeriodic() {
-        reactor.whileTriggered(rightStick.getTrigger(), () -> Strongback.submit(new ShiftUp(shift)));
+        reactor.onTriggered(rightStick.getTrigger(), () -> Strongback.submit(new ShiftUp(shift)));
         reactor.onTriggered(rightStick.getThumb(), () -> Strongback.submit(new ShiftDown(shift)));
     }
 

@@ -6,28 +6,26 @@
 package com.team5459.robot;
 
 import org.strongback.command.Command;
+import org.strongback.drive.TankDrive;
 import org.strongback.components.ui.FlightStick;
 /**
  *
  * @author filip
  */
-public class TankDrive extends Command{
-    private GearboxThree right;
-    private GearboxThree left;
-    private FlightStick rightStick;
-    private FlightStick leftStick;
+public class Drive extends Command{
+    private final TankDrive drive;
+    private final double rightStick;
+    private final double leftStick;
 
-    public TankDrive() {
-        this.right = null;
-        this.left = null;
-        this.leftStick = null;
-        this.rightStick = null;
+    public Drive() {
+        this.drive = null;
+        this.leftStick = 0;
+        this.rightStick = 0;
     }
     
     
-    public TankDrive(GearboxThree right, GearboxThree left, FlightStick rightStick, FlightStick leftStick) {
-        this.right = right;
-        this.left = left;
+    public Drive(TankDrive drive, double rightStick, double leftStick) {
+        this.drive = drive;
         this.leftStick = leftStick;
         this.rightStick = rightStick;
     }
@@ -36,23 +34,20 @@ public class TankDrive extends Command{
     
    @Override
     public boolean execute(){
-    	right.setSpeed(rightStick.getPitch().read());
-        left.setSpeed(leftStick.getPitch().read());
+    	drive.tank(leftStick, rightStick);
     	return false;
     	//this drives the robot
     }
     
     @Override
     public void interrupted() {
-    	right.setSpeed(0);
-        left.setSpeed(0);
+    	drive.tank(0, 0);
         //if interrupted the drive stops
     }
     
     @Override
     public void end(){
-    	right.setSpeed(0);
-        left.setSpeed(0);
+    	drive.tank(0, 0);
         //if interrupted the drive stops
     }
 }
