@@ -37,8 +37,8 @@ public class TestRobot {
         ShiftUp command = new ShiftUp(solenoid);
         System.out.println("Command created");
         assertThat(command.execute()).isTrue();
-        //assertThat(solenoid.isExtending()).isTrue();
-        //assertThat(solenoid.isRetracting()).isFalse;
+        assertThat(solenoid.isExtending()).isTrue();
+        assertThat(solenoid.isRetracting()).isFalse;
         solenoid.stop();
         assertThat(solenoid.isStopped()).isTrue(); 
         System.out.println("shouldShiftUpWhenAlreadyShiftedUp passed");
@@ -52,8 +52,8 @@ public class TestRobot {
         ShiftUp command = new ShiftUp(solenoid);
         System.out.println("Solenoid created");
         assertThat(command.execute()).isTrue();
-        //assertThat(solenoid.isExtending()).isTrue();
-        //assertThat(solenoid.isRetracting()).isFalse;
+        assertThat(solenoid.isExtending()).isTrue();
+        assertThat(solenoid.isRetracting()).isFalse();
         solenoid.stop();
         assertThat(solenoid.isStopped()).isTrue();   
         System.out.println("shouldShiftUpWhenShiftedDown passed");
@@ -66,8 +66,8 @@ public class TestRobot {
         ShiftDown command = new ShiftDown(solenoid);
         System.out.println("Command created");
         assertThat(command.execute()).isTrue();
-        //assertThat(solenoid.isExtending()).isTrue();
-        //assertThat(solenoid.isRetracting()).isFalse;
+        assertThat(solenoid.isExtending()).isTrue();
+        assertThat(solenoid.isRetracting()).isFalse();
         solenoid.stop();
         assertThat(solenoid.isStopped()).isTrue();
         System.out.println("shouldShiftDownWhenAlreadyShiftedUp passed");
@@ -81,8 +81,8 @@ public class TestRobot {
         ShiftDown command = new ShiftDown(solenoid);
         System.out.println("Command created");
         assertThat(command.execute()).isTrue();
-        //assertThat(solenoid.isExtending()).isTrue();
-        //assertThat(solenoid.isRetracting()).isFalse;
+        assertThat(solenoid.isExtending()).isTrue();
+        assertThat(solenoid.isRetracting()).isFalse;
         solenoid.stop();
         assertThat(solenoid.isStopped()).isTrue();  
         System.out.println("shouldShiftDownWhenAlreadyShiftedDown passed");
