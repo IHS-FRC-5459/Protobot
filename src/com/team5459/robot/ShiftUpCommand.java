@@ -12,14 +12,14 @@ import org.strongback.components.Solenoid;
  *
  * @author filip
  */
-public class ShiftUp extends Command{
+public class ShiftUpCommand extends Command{
     private Solenoid shift;
 
-    public ShiftUp() {
+    public ShiftUpCommand() {
         this.shift = null;
     }
     
-    public ShiftUp(Solenoid shift) {
+    public ShiftUpCommand(Solenoid shift) {
         this.shift = shift;
     }
     

@@ -73,7 +73,7 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void teleopPeriodic() {
-        reactor.onTriggered(rightStick.getTrigger(), () -> Strongback.submit(new ShiftUp(shift)));
+        reactor.onTriggered(rightStick.getTrigger(), () -> Strongback.submit(new ShiftUpCommand(shift)));
         reactor.onTriggered(rightStick.getThumb(), () -> Strongback.submit(new ShiftDown(shift)));
     }
 
