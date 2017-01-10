@@ -7,6 +7,9 @@ import org.strongback.components.Solenoid;
 import org.strongback.hardware.Hardware;
 import org.strongback.components.ui.FlightStick;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import org.strongback.SwitchReactor;
+import org.strongback.drive.TankDrive;
+
 /**
  * This is the main code for protobot
  * @author filip
@@ -18,13 +21,13 @@ public class Robot extends IterativeRobot {
     private Motor topLeft;
     private Motor frontLeft;
     private Motor backLeft;
-    private Solenoid leftShift;
-    private Solenoid rightShift;
-    private GearboxThree right;
-    private GearboxThree left;
+    private Solenoid shift;
+    private Motor left;
+    private Motor right;
     private TankDrive drive;
     private FlightStick rightStick;
     private FlightStick leftStick;
+    private SwitchReactor reactor;
     
     @Override
     public void robotInit() {
@@ -37,16 +40,15 @@ public class Robot extends IterativeRobot {
         /*
         * do not revers any motors because it is reversed 
         */
-        rightShift = Hardware.Solenoids.doubleSolenoid(0, 1, Solenoid.Direction.RETRACTING);
-        leftShift = Hardware.Solenoids.doubleSolenoid(2, 3, Solenoid.Direction.RETRACTING);
-        //topRight.invert();
-        //right = Motor.compose(topRight, frontRight,backLeft);
-        //Do this for a replacement for the gearboxes^
-        left = new GearboxThree(topLeft, frontLeft, backLeft, leftShift, true);
-        right = new GearboxThree(topRight, frontRight, backRight, leftShift, false);
+        shift = Hardware.Solenoids.doubleSolenoid(0, 1, Solenoid.Direction.RETRACTING);
+        topLeft.invert();
+        topRight.invert();
+        right = Motor.compose(topRight, frontRight,backLeft);
+        left = Motor.compose(topLeft, frontLeft, backLeft);
+        drive = new TankDrive(right, left);
         rightStick = Hardware.HumanInterfaceDevices.logitechAttack3D(1);
         leftStick = Hardware.HumanInterfaceDevices.logitechAttack3D(0);
-        
+        reactor = Strongback.switchReactor();
     }
     
     @Override
@@ -65,13 +67,14 @@ public class Robot extends IterativeRobot {
     
     @Override
     public void teleopInit() {
-        Strongback.submit(new TankDrive(right, left, rightStick, leftStick));
+        Strongback.submit(new Drive(drive, rightStick.getPitch().read(), leftStick.getPitch().read()));
         
     }
 
     @Override
     public void teleopPeriodic() {
-        
+        reactor.onTriggered(rightStick.getTrigger(), () -> Strongback.submit(new ShiftUpCommand(shift)));
+        reactor.onTriggered(rightStick.getThumb(), () -> Strongback.submit(new ShiftDown(shift)));
     }
 
     @Override
