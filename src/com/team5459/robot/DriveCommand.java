@@ -12,19 +12,19 @@ import org.strongback.components.ui.FlightStick;
  *
  * @author filip
  */
-public class Drive extends Command{
+public class DriveCommand extends Command{
     private final TankDrive drive;
     private final double rightStick;
     private final double leftStick;
 
-    public Drive() {
+    public DriveCommand() {
         this.drive = null;
         this.leftStick = 0;
         this.rightStick = 0;
     }
     
     
-    public Drive(TankDrive drive, double rightStick, double leftStick) {
+    public DriveCommand(TankDrive drive, double rightStick, double leftStick) {
         this.drive = drive;
         this.leftStick = leftStick;
         this.rightStick = rightStick;

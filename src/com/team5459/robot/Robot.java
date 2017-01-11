@@ -67,14 +67,14 @@ public class Robot extends IterativeRobot {
     
     @Override
     public void teleopInit() {
-        Strongback.submit(new Drive(drive, rightStick.getPitch().read(), leftStick.getPitch().read()));
+        Strongback.submit(new DriveCommand(drive, rightStick.getPitch().read(), leftStick.getPitch().read()));
         
     }
 
     @Override
     public void teleopPeriodic() {
         reactor.onTriggered(rightStick.getTrigger(), () -> Strongback.submit(new ShiftUpCommand(shift)));
-        reactor.onTriggered(rightStick.getThumb(), () -> Strongback.submit(new ShiftDown(shift)));
+        reactor.onTriggered(rightStick.getThumb(), () -> Strongback.submit(new ShiftDownCommand(shift)));
     }
 
     @Override

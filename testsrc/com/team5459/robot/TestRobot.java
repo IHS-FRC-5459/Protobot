@@ -66,7 +66,7 @@ public class TestRobot {
     public void shouldShiftDownWhenAlreadyShiftedUp(){
         MockSolenoid solenoid = Mock.manualSolenoid().extend();
         System.out.println("Solenoid created");
-        ShiftDown command = new ShiftDown(solenoid);
+        ShiftDownCommand command = new ShiftDownCommand(solenoid);
         System.out.println("Command created");
         assertThat(command.execute()).isTrue();
         assertThat(solenoid.isExtending()).isTrue();
@@ -81,7 +81,7 @@ public class TestRobot {
     public void shouldShiftDownWhenAlreadyShiftedDown(){
         MockSolenoid solenoid = Mock.manualSolenoid().retract();
         System.out.println("Solenoid created");
-        ShiftDown command = new ShiftDown(solenoid);
+        ShiftDownCommand command = new ShiftDownCommand(solenoid);
         System.out.println("Command created");
         assertThat(solenoid.isExtending()).isTrue();
         assertThat(solenoid.isRetracting()).isFalse();
@@ -94,7 +94,7 @@ public class TestRobot {
     @Ignore
     @Test
     public void shouldDriveForwardAtASpeed(){
-        tester = new CommandTester(new Drive(drive, 0.5,0.5));
+        tester = new CommandTester(new DriveCommand(drive, 0.5,0.5));
         assertThat(leftMotor.getSpeed()).isEqualTo(0.0);
         assertThat(rightMotor.getSpeed()).isEqualTo(0.0);
         System.out.println("Inital Speed passed");
