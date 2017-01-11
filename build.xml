@@ -25,4 +25,21 @@
 	<property file="build.properties"/>
 	<import file="${user.home}/strongback/java/ant/build.xml"/>
 
+	   <!-- Define the classpaths -->
+	    <path id="compile.classpath">
+	    	<fileset dir="./Lib" includes="**/*.jar" />
+	        <fileset dir="${strongback.home}/java/lib" includes="**/*.jar" excludes="**/*-sources.jar" />
+	        <fileset dir="${user.home}/wpilib/java/${version}/lib" includes="**/*.jar" excludes="**/*-sources.jar" />
+	        <pathelement path="${classpath}" />
+	    </path>
+
+	<!-- Define a classpath for unit testing -->
+	    <path id="junit.classpath">
+	    	<fileset dir="./Lib" includes="**/*.jar" />
+	        <fileset dir="${strongback.home}/java/lib" includes="**/*.jar" excludes="**/*-sources.jar" />
+	        <fileset dir="${strongback.home}/java/lib-tests" includes="**/*.jar" excludes="**/*-sources.jar" />
+	        <pathelement location="${build.dir}" />
+	        <pathelement path="${classpath}" />
+	    </path>
+	    	
 </project>
